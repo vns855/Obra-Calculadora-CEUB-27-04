@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="jakarta.faces.html"
+      xmlns:f="jakarta.faces.core"
+      xmlns:ui="jakarta.faces.facelets">
+<ui:composition template="/WEB-INF/templates/layout.xhtml">
+    <ui:define name="conteudo">
+
+        <h2>Solicitação de Orçamento</h2>
+        <p>Informe os dados da planta da sua casa para calcular os materiais necessários.</p>
+
+        <h:form id="formOrcamento">
+
+            <div class="mensagens">
+                <h:messages globalOnly="false" layout="table" errorClass="erro" infoClass="info" />
+            </div>
+
+            <div class="campo">
+                <h:outputLabel for="nome" value="Nome do cliente" />
+                <h:inputText id="nome" value="#{orcamentoBean.request.nomeUsuario}" />
+            </div>
+
+            <div class="campo">
+                <h:outputLabel for="area" value="Área total da casa (m²)" />
+                <h:inputText id="area" value="#{orcamentoBean.request.areaTotal}" />
+            </div>
+
+            <div class="campo">
+                <h:outputLabel for="perimetro" value="Perímetro total das paredes (m)" />
+                <h:inputText id="perimetro" value="#{orcamentoBean.request.perimetroTotal}" />
+            </div>
+
+            <div class="campo">
+                <h:outputLabel for="altura" value="Altura das paredes (m)" />
+                <h:inputText id="altura" value="#{orcamentoBean.request.alturaParedes}" />
+            </div>
+
+            <div class="campo">
+                <h:outputLabel for="comodos" value="Número de cômodos" />
+                <h:inputText id="comodos" value="#{orcamentoBean.request.numComodos}" />
+            </div>
+
+            <div class="campo">
+                <h:outputLabel for="banheiros" value="Número de banheiros" />
+                <h:inputText id="banheiros" value="#{orcamentoBean.request.numBanheiros}" />
+            </div>
+
+            <h:commandButton value="Calcular Orçamento" action="#{orcamentoBean.calcular}" styleClass="botao" />
+            <h:commandButton value="Limpar" action="#{orcamentoBean.novoOrcamento}" styleClass="botao secundario" immediate="true" />
+
+        </h:form>
+
+        <h:panelGroup rendered="#{orcamentoBean.resultado != null}">
+            <div class="resultado">
+                <h3>Orçamento #{orcamentoBean.resultado.numeroOrcamento}</h3>
+                <table class="dados">
+                    <tr>
+                        <td class="label">Cliente</td>
+                        <td class="valor">#{orcamentoBean.resultado.nomeUsuario}</td>
+                    </tr>
+                    <tr>
+                        <td class="label">Sacos de cimento</td>
+                        <td class="valor">#{orcamentoBean.resultado.qtdSacosCimento}</td>
+                    </tr>
+                    <tr>
+                        <td class="label">Areia (m³)</td>
+                        <td class="valor">#{orcamentoBean.resultado.volumeAreiaM3}</td>
+                    </tr>
+                    <tr>
+                        <td class="label">Brita (m³)</td>
+                        <td class="valor">#{orcamentoBean.resultado.volumeBritaM3}</td>
+                    </tr>
+                    <tr>
+                        <td class="label">Tijolos (com perda)</td>
+                        <td class="valor">#{orcamentoBean.resultado.qtdTijolosComPerda}</td>
+                    </tr>
+                    <tr>
+                        <td class="label">Custo total estimado</td>
+                        <td class="valor">R$ #{orcamentoBean.resultado.custoTotalEstimado}</td>
+                    </tr>
+                </table>
+            </div>
+        </h:panelGroup>
+
+    </ui:define>
+</ui:composition>
+</html>

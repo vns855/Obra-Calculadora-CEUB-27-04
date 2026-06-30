@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="jakarta.faces.html"
+      xmlns:f="jakarta.faces.core"
+      xmlns:ui="jakarta.faces.facelets">
+<ui:composition template="/WEB-INF/templates/layout.xhtml">
+    <ui:define name="conteudo">
+
+        <h2>Buscar Orçamento</h2>
+        <p>Busque um orçamento já calculado pelo número gerado ou pelo nome do cliente.</p>
+
+        <h:form id="formBusca">
+
+            <div class="mensagens">
+                <h:messages globalOnly="false" layout="table" errorClass="erro" infoClass="info" />
+            </div>
+
+            <div class="campo">
+                <h:outputLabel for="numero" value="Número do orçamento (ex: ORC-A1B2C3D4)" />
+                <h:inputText id="numero" value="#{orcamentoBean.numeroBusca}" />
+            </div>
+            <h:commandButton value="Buscar por Número" action="#{orcamentoBean.buscarPorNumero}" styleClass="botao" />
+
+            <hr style="margin: 25px 0; border-color: #eee;" />
+
+            <div class="campo">
+                <h:outputLabel for="nome" value="Nome do cliente" />
+                <h:inputText id="nome" value="#{orcamentoBean.nomeBusca}" />
+            </div>
+            <h:commandButton value="Buscar por Nome" action="#{orcamentoBean.buscarPorNome}" styleClass="botao" />
+
+        </h:form>
+
+        <h:panelGroup rendered="#{not empty orcamentoBean.listaResultados}">
+            <div class="resultado">
+                <h3>Resultados encontrados</h3>
+                <h:dataTable value="#{orcamentoBean.listaResultados}" var="orc" styleClass="dados" style="width:100%;">
+                    <h:column>
+                        <f:facet name="header">Número</f:facet>
+                        #{orc.numeroOrcamento}
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">Cliente</f:facet>
+                        #{orc.nomeUsuario}
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">Área (m²)</f:facet>
+                        #{orc.areaTotal}
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">Custo Total (R$)</f:facet>
+                        #{orc.custoTotalEstimado}
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">Data</f:facet>
+                        #{orc.dataCriacao}
+                    </h:column>
+                </h:dataTable>
+            </div>
+        </h:panelGroup>
+
+    </ui:define>
+</ui:composition>
+</html>
